@@ -1,0 +1,99 @@
+---
+import Base from "../../../layouts/Base.astro";
+import "../../../styles/team.css";
+import { getEmDashCollection } from "emdash";
+
+const { entries } = await getEmDashCollection("team_page");
+const teamPage = entries[0]?.data ?? {};
+
+const heading =
+  teamPage.heading ??
+  "Ihr erfahrenes Radiologie-Team in Baden-Baden";
+
+const subheading =
+  teamPage.subheading ??
+  "Hightech trifft Fürsorge – für Ihre Gesundheit";
+
+const text = teamPage.text ?? "";
+
+const imageUrl = teamPage.image?.meta?.storageKey
+  ? `/_emdash/api/media/file/${teamPage.image.meta.storageKey}`
+  : "";
+
+const imageAlt =
+  teamPage.image?.alt ??
+  "Das Team der Radiologie Baden-Baden";
+
+const praxisName =
+  teamPage.praxis_name ??
+  "Radiologie Baden-Baden";
+
+const telefon =
+  teamPage.telefon ??
+  "+49 7221 92287-0";
+
+const oeffnungszeiten =
+  teamPage.oeffunngszeiten ?? "";
+
+const standortName =
+  teamPage.standort_name ??
+  "Medical Center";
+
+const standortAdresse =
+  teamPage.standort_adresse ??
+  "Beethovenstraße 2\n76530 Baden-Baden";
+
+const hinweis =
+  teamPage.hinweis ??
+  "*Nach Rücksprache mit dem behandelnden Arzt";
+
+const ktqUrl = teamPage.ktq_zertifikat?.meta?.storageKey
+  ? `/_emdash/api/media/file/${teamPage.ktq_zertifikat.meta.storageKey}`
+  : "";
+
+const drgSchwerpunktUrl = teamPage.drg_schwerpunkt?.meta?.storageKey
+  ? `/_emdash/api/media/file/${teamPage.drg_schwerpunkt.meta.storageKey}`
+  : "";
+
+const drgZentrumUrl = teamPage.drg_zentrum?.meta?.storageKey
+  ? `/_emdash/api/media/file/${teamPage.drg_zentrum.meta.storageKey}`
+  : "";
+---
+
+<Base
+  title="Team"
+  description="Lernen Sie unser erfahrenes Radiologie-Team in Baden-Baden kennen."
+>
+  <section class="team-hero">
+    <div class="team-hero-image">
+      {imageUrl && (
+        <img src={imageUrl} alt={imageAlt} />
+      )}
+    </div>
+
+    <div class="team-hero-content">
+      {subheading && (
+        <p class="team-hero-subheading">
+          {subheading}
+        </p>
+      )}
+
+      <h1 class="team-hero-heading">
+        {heading}
+      </h1>
+    </div>
+  </section>
+
+  {text && (
+    <section class="team-text-section">
+      {text
+        .split("\n\n")
+        .filter(Boolean)
+        .map((paragraph) => (
+          <p class="team-text">
+            {paragraph}
+          </p>
+        ))}
+    </section>
+  )}
+</Base>

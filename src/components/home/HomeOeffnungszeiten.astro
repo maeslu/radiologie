@@ -1,0 +1,23 @@
+---
+import "../../styles/home-oeffnungszeiten.css";
+
+interface Props {
+  text?: string;
+  buttonText?: string;
+  buttonLink?: string;
+}
+
+const { text = "", buttonText = "", buttonLink = "#" } = Astro.props;
+---
+
+<section class="home-oeffnungszeiten">
+  <div class="container">
+    <h2>Öffnungszeiten</h2>
+    {text && <p class="home-oeffnungszeiten-text" set:html={text} />}
+    {buttonText && (
+      <a href={buttonLink} class="home-oeffnungszeiten-btn">
+        {buttonText}
+      </a>
+    )}
+  </div>
+</section>

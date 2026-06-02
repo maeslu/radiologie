@@ -1,0 +1,42 @@
+---
+import "../../styles/home-nav-buttons.css";
+
+const db = (Astro.locals as any).emdash.db;
+const menuRow = await db.selectFrom('_emdash_menus').where('name', '=', 'home-nav').selectAll().executeTakeFirst();
+const allItems = menuRow ? await db.selectFrom('_emdash_menu_items').where('menu_id', '=', menuRow.id).selectAll().execute() : [];
+
+const topLevel = allItems.filter((item: any) => !item.parent_id);
+const buttons = topLevel.map((item: any) => ({
+  label: item.label,
+  href: item.url,
+  children: allItems.filter((child: any) => child.parent_id === item.id),
+}));
+---
+
+{
+  buttons.length > 0 && (
+    <section class="home-nav-buttons" aria-label="Bereiche">
+      <div class="container home-nav-buttons-inner">
+        {buttons.map(({ label, href, children }) =>
+          children.length > 0 ? (
+            <div class="home-nav-dropdown">
+              <a href={href} class="home-nav-btn home-nav-btn--dropdown">
+                {label}
+                <svg viewBox="0 0 12 12" fill="none" aria-hidden="true" class="home-nav-chevron">
+                  <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+              <div class="home-nav-dropdown-panel">
+                {children.map((child: any) => (
+                  <a href={child.url} class="home-nav-dropdown-link">{child.label}</a>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <a href={href} class="home-nav-btn">{label}</a>
+          )
+        )}
+      </div>
+    </section>
+  )
+}

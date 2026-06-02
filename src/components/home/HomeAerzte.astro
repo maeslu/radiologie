@@ -1,0 +1,26 @@
+---
+import "../../styles/home-aerzte.css";
+
+interface Props {
+  text?: string;
+  image?: string;
+  imageAlt?: string;
+}
+
+const { text = "", image = "", imageAlt = "Unsere Ärzte" } = Astro.props;
+---
+
+{(text || image) && (
+  <section class="home-aerzte">
+    <div class="container home-aerzte-inner">
+      <div class="home-aerzte-content">
+        {text && <p>{text}</p>}
+      </div>
+      {image && (
+        <div class="home-aerzte-image">
+          <img src={image} alt={imageAlt} />
+        </div>
+      )}
+    </div>
+  </section>
+)}

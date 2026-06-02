@@ -1,0 +1,75 @@
+.card {
+	display: flex;
+	flex-direction: column;
+	background: var(--color-bg);
+	border-radius: var(--radius-lg);
+	box-shadow: var(--shadow-card, 0 12px 40px rgba(11, 61, 110, 0.14));
+	overflow: hidden;
+	text-decoration: none;
+	color: inherit;
+	transition:
+		transform var(--transition-base),
+		box-shadow var(--transition-base);
+}
+
+.card:hover {
+	transform: translateY(-4px);
+	box-shadow: 0 16px 48px rgba(11, 61, 110, 0.18);
+}
+
+.card-image {
+	aspect-ratio: 4 / 3;
+	overflow: hidden;
+	border-top-left-radius: 24px;
+	border-top-right-radius: 24px;
+}
+
+.card:not(:has(.card-body)) .card-image {
+	aspect-ratio: 16 / 10;
+}
+
+.card-image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.card-body {
+	padding: 2rem;
+	text-align: center;
+}
+
+.card-title {
+	font-size: 2rem;
+	font-weight: 700;
+	line-height: 1.3;
+	margin-bottom: 1rem;
+	color: var(--color-brand-navy, var(--color-text));
+}
+
+.card-description {
+	font-size: 1.1rem;
+	line-height: 1.7;
+	color: var(--color-muted);
+	margin-bottom: 2rem;
+}
+.card-button {
+	display: inline-block;
+	background: #004b93;
+	color: white;
+	padding: 0.9rem 1.8rem;
+	border-radius: 999px;
+	text-decoration: none;
+	font-weight: 700;
+	transition:
+		background 0.25s ease,
+		color 0.25s ease,
+		transform 0.25s ease;
+}
+
+.card-button:hover,
+.card:hover .card-button {
+	color: var(--color-brand-navy, #0b2d55);
+	background: #8fd3ff;
+	transform: translateY(-2px);
+}

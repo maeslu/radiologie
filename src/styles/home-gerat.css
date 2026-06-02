@@ -1,0 +1,30 @@
+.home-gerat {
+    padding: var(--spacing-4xl) 0;
+  }
+  
+  .home-gerat-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  
+  .home-gerat-content p {
+    color: var(--color-text-muted);
+    line-height: 1.8;
+    font-size: 1.1rem;
+  }
+  
+  .home-gerat-image img {
+    width: 100%;
+    border-radius: 16px;
+    object-fit: cover;
+    min-height: 400px;
+  }
+  
+  @media (max-width: 768px) {
+    .home-gerat-inner {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }

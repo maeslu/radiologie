@@ -1,0 +1,424 @@
+/* aerzte.css */
+.aerzte-hero {
+  padding: 60px 24px 40px;
+  text-align: center;
+  background: #fff;
+}
+.aerzte-hero-inner {
+  max-width: 860px;
+  margin: 0 auto;
+}
+.aerzte-hero-heading {
+  font-size: 42px;
+  font-weight: 700;
+  color: #0b3b78;
+  margin: 0 0 20px;
+}
+.aerzte-hero-intro {
+  font-size: 16px;
+  line-height: 1.75;
+  color: #444;
+  margin: 0;
+}
+
+/* Grid-Bereich */
+.aerzte-section {
+  padding: 48px 24px 80px;
+  background: #fff;
+}
+.aerzte-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.aerzte-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px 32px;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .aerzte-grid { grid-template-columns: 1fr; }
+}
+
+/* Karte */
+.arzt-card {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  align-self: start;
+  align-items: center;
+  text-align: center;
+}
+
+.arzt-img-wrap {
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 24px;
+  background: #dde6f0;
+  flex-shrink: 0;
+}
+.arzt-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.arzt-img-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.arzt-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.arzt-subheading {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 4px;
+}
+.arzt-name {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0b3b78;
+  margin: 0 0 10px;
+  line-height: 1.3;
+}
+.arzt-fachrichtung {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+  margin: 0 0 20px;
+  max-width: 280px;
+}
+
+/* Button */
+.arzt-btn {
+  display: inline-block;
+  background: #0b3b78;
+  color: #fff;
+  padding: 12px 28px;
+  border-radius: 30px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: background 0.15s;
+}
+.arzt-card:hover .arzt-btn {
+  background: #0d4a96;
+}
+
+
+/* ── Schwerpunkte Akkordeon ────────────────────────────────── */
+.schwerpunkte-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sp-accordion-item {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(11, 59, 120, 0.08);
+}
+
+/* Button */
+.sp-accordion-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0b3b78;
+  color: #fff;
+  border: none;
+  padding: 20px 28px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s;
+}
+.sp-accordion-btn:hover {
+  background: #0d4a96;
+}
+.sp-accordion-label {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+/* Chevron-Animation */
+.sp-accordion-icon {
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+.sp-accordion-btn[aria-expanded="true"] .sp-accordion-icon {
+  transform: rotate(180deg);
+}
+
+/* Body */
+.sp-accordion-body {
+  display: none;
+  background: #f4f7fb;
+}
+.sp-accordion-btn[aria-expanded="true"] + .sp-accordion-body {
+  display: block;
+}
+.sp-accordion-body > .sp-aerzte-grid,
+.sp-accordion-body > .sp-aerzte-list {
+  overflow: hidden;
+}
+
+/* Inside blue card: transparent body, white text */
+.blue-card .sp-accordion-body {
+  background: transparent;
+}
+.blue-card .sp-accordion-btn {
+  background: rgba(255,255,255,0.12);
+}
+.blue-card .sp-accordion-btn:hover {
+  background: rgba(255,255,255,0.2);
+}
+.blue-card .sp-aerzte-list {
+  background: transparent;
+}
+.blue-card .sp-arzt-row {
+  color: #fff;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.blue-card .sp-arzt-row:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* Ärzte-Grid im Akkordeon */
+.sp-aerzte-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 28px 24px;
+  padding: 28px;
+}
+
+/* Arzt-Karte */
+.sp-arzt-card {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px 16px 20px;
+  transition: box-shadow 0.15s, transform 0.15s;
+}
+.sp-arzt-card:hover {
+  box-shadow: 0 6px 20px rgba(11, 59, 120, 0.12);
+  transform: translateY(-2px);
+}
+
+/* Rundes Foto */
+.sp-arzt-img-wrap {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 14px;
+  background: #dde6f0;
+  flex-shrink: 0;
+}
+.sp-arzt-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.sp-arzt-img-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Text */
+.sp-arzt-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.sp-arzt-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0b3b78;
+  margin: 0 0 6px;
+  line-height: 1.3;
+}
+.sp-arzt-fachrichtung {
+  font-size: 12px;
+  color: #666;
+  line-height: 1.5;
+  margin: 0 0 14px;
+}
+
+/* Button */
+.sp-arzt-btn {
+  display: inline-block;
+  background: #0b3b78;
+  color: #fff;
+  padding: 8px 20px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 600;
+  transition: background 0.15s;
+}
+.sp-arzt-card:hover .sp-arzt-btn {
+  background: #0d4a96;
+}
+
+/* Kompakte Arzt-Zeilen in der blauen Box */
+.sp-aerzte-list {
+  display: flex;
+  flex-direction: column;
+  padding: 4px 0 8px;
+  gap: 0;
+}
+
+.sp-arzt-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 28px;
+  text-decoration: none;
+  color: #0b3b78;
+  font-size: 15px;
+  font-weight: 600;
+  transition: background 0.15s;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.sp-arzt-row:last-child {
+  border-bottom: none;
+}
+
+.sp-arzt-row:hover {
+  background: rgba(11,59,120,0.05);
+}
+
+.sp-arzt-row-name {
+  flex: 1;
+}
+
+.sp-arzt-row-arrow {
+  font-size: 18px;
+  opacity: 0.5;
+  transition: transform 0.15s, opacity 0.15s;
+}
+
+.sp-arzt-row:hover .sp-arzt-row-arrow {
+  transform: translateX(4px);
+  opacity: 1;
+}
+  .sp-accordion-btn { padding: 16px 20px; }
+  .sp-accordion-label { font-size: 15px; }
+  .sp-aerzte-grid {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 20px;
+    gap: 16px;
+  }
+@media (max-width: 600px) {
+  .sp-accordion-btn { padding: 16px 20px; }
+  .sp-accordion-label { font-size: 15px; }
+  .sp-aerzte-grid {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 20px;
+    gap: 16px;
+  }
+}
+/* ── Filter Sidebar Layout ───────────────────────────────── */
+.aerzte-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+
+.sp-sidebar {
+  flex: 0 0 200px;
+  position: sticky;
+  top: 100px;
+}
+
+.sp-sidebar-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  margin: 0 0 14px 4px;
+}
+
+.sp-filter-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sp-filter-btn {
+  background: transparent;
+  color: #0b3b78;
+  border: 2px solid #0b3b78;
+  border-radius: 30px;
+  padding: 7px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s, color 0.15s;
+  font-family: inherit;
+  line-height: 1.3;
+}
+
+.sp-filter-btn:hover {
+  background: #0b3b78;
+  color: #fff;
+}
+
+.sp-filter-btn.sp-filter-active {
+  background: #0b3b78;
+  color: #fff;
+}
+
+.aerzte-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.arzt-card.sp-hidden {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .aerzte-layout {
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px 16px 60px;
+  }
+
+  .sp-sidebar {
+    flex: none;
+    width: 100%;
+    position: static;
+  }
+
+  .sp-filter-wrap {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}

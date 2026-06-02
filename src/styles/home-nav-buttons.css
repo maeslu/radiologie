@@ -1,0 +1,100 @@
+.home-nav-buttons {
+	position: relative;
+	z-index: 3;
+	margin-top: -3.5rem;
+	padding: var(--spacing-3xl) 0 var(--spacing-4xl);
+	background: var(--color-bg);
+}
+
+.home-nav-buttons-inner {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: var(--spacing-md);
+}
+
+.home-nav-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.75rem 1.5rem;
+	font-size: var(--font-size-sm);
+	font-weight: 600;
+	color: var(--color-brand-navy, var(--color-text));
+	background: var(--color-bg);
+	border: 2px solid var(--color-brand-navy, #072d52);
+	border-radius: var(--radius-full);
+	text-decoration: none;
+	transition:
+		color var(--transition-fast),
+		background var(--transition-fast),
+		border-color var(--transition-fast),
+		transform var(--transition-fast);
+}
+
+.home-nav-btn:hover {
+	color: #fff;
+	background: var(--color-brand-navy, #072d52);
+	border-color: var(--color-brand-navy, #072d52);
+	transform: translateY(-2px);
+}
+
+@media (max-width: 540px) {
+	.home-nav-buttons-inner {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.home-nav-btn {
+		width: 100%;
+	}
+}
+.home-nav-dropdown {
+	position: relative;
+  }
+  
+  .home-nav-btn--dropdown {
+	gap: 0.4rem;
+  }
+  
+  .home-nav-chevron {
+	width: 12px;
+	height: 12px;
+	transition: transform var(--transition-fast);
+  }
+  
+  .home-nav-dropdown:hover .home-nav-chevron {
+	transform: rotate(180deg);
+  }
+  
+  .home-nav-dropdown-panel {
+	display: none;
+	position: absolute;
+	top: calc(100% + 0.5rem);
+	left: 50%;
+	transform: translateX(-50%);
+	background: var(--color-bg);
+	border: 1px solid #e2e8f0;
+	border-radius: var(--radius-md);
+	box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+	min-width: 200px;
+	z-index: 10;
+	overflow: hidden;
+  }
+  
+  .home-nav-dropdown:hover .home-nav-dropdown-panel {
+	display: flex;
+	flex-direction: column;
+  }
+  
+  .home-nav-dropdown-link {
+	padding: 0.75rem 1.25rem;
+	font-size: var(--font-size-sm);
+	font-weight: 500;
+	color: var(--color-brand-navy, #072d52);
+	text-decoration: none;
+  }
+  
+  .home-nav-dropdown-link:hover {
+	background: #f1f5f9;
+  }

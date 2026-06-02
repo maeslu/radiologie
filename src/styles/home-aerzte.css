@@ -1,0 +1,29 @@
+.home-aerzte {
+  padding: var(--spacing-4xl) 0;
+  }
+  
+  .home-aerzte-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-3xl);
+    align-items: center;
+  }
+  
+  .home-aerzte-content p {
+    color: var(--color-text-muted);
+    line-height: 1.8;
+    font-size: var(--font-size-md);
+  }
+  
+  .home-aerzte-image img {
+    width: 100%;
+    border-radius: 16px;
+    object-fit: cover;
+    min-height: 300px;
+  }
+  
+  @media (max-width: 768px) {
+    .home-aerzte-inner {
+      grid-template-columns: 1fr;
+    }
+  }

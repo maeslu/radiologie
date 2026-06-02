@@ -1,0 +1,298 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getEmDashCollection } from "emdash";
+import "../../styles/arzt-detail.css";
+import "../../styles/aerzte.css";
+
+const { slug } = Astro.params;
+
+function fotoUrl(field: any): string {
+  return field?.meta?.storageKey
+    ? `/_emdash/api/media/file/${field.meta.storageKey}`
+    : "";
+}
+
+/* Ärzte laden */
+const { entries } = await getEmDashCollection("arzt");
+
+/* Richtigen Arzt finden */
+const entry = entries.find((e: any) => e.slug === slug);
+
+if (!entry) {
+  // Kein Redirect auf /aerzte um Schleifen zu vermeiden – stattdessen 404
+  return new Response(null, { status: 404 });
+}
+
+const arztData = entry.data;
+
+/* Basisdaten */
+const name         = arztData.titel ?? arztData.title ?? "";
+const introText    = arztData.intro_text ?? "";
+const foto         = fotoUrl(arztData.foto);
+const fachrichtung = arztData.fachrichtung ?? "Schwerpunkte";
+const beschreibung = arztData.beschreibung ?? "";
+
+/* Weitere Bereiche */
+const lebenslaufHeading        = arztData.lebenslauf_heading ?? "";
+const lebenslaufText           = arztData.lebenslauf_text ?? "";
+
+const sprachenHeading          = arztData.sprachen_heading ?? "";
+const sprachenText             = arztData.sprachen_text ?? "";
+
+const wissenschaftlicheHeading = arztData.wissenschaftliche_heading ?? "";
+const wissenschaftlicheText    = arztData.wissenschaftliche_text ?? "";
+
+const mitgliedschaftenHeading  = arztData.mitgliedschaften_heading ?? "";
+const mitgliedschaftenText     = arztData.mitgliedschaften_text ?? "";
+
+const weiteresHeading          = arztData.weiteres_heading ?? "";
+const weiteresText             = arztData.weiteres_text ?? "";
+
+const preiseHeading            = arztData.preise_heading ?? "";
+const preiseText               = arztData.preise_text ?? "";
+
+/* Schwerpunkt-Taxonomy */
+const schwerpunkte =
+  arztData.terms?.schwerpunkte ?? arztData.taxonomies?.schwerpunkte ?? [];
+
+/* Hilfsfunktion */
+function toLines(text: string): string[] {
+  return text
+    ? text.split("\n").map((l) => l.trim()).filter(Boolean)
+    : [];
+}
+---
+
+<Base title={name} description={introText}>
+
+  <div class="arzt-page-wrapper">
+
+    <!-- HERO -->
+    <section class="arzt-hero-banner">
+      <div class="arzt-hero-banner-inner">
+
+        <div class="arzt-hero-image-side">
+          {foto ? (
+            <img
+              src={foto}
+              alt={name}
+              class="arzt-banner-img"
+            />
+          ) : (
+            <div class="arzt-banner-placeholder"></div>
+          )}
+        </div>
+
+        <div class="arzt-hero-text-side">
+
+          <h1 class="arzt-banner-title">
+            {name}
+          </h1>
+
+          {introText && (
+            <p class="arzt-banner-intro">
+              {introText}
+            </p>
+          )}
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CONTENT -->
+    <div class="arzt-container">
+
+      <div class="arzt-sections-container">
+
+        {/* SCHWERPUNKTE */}
+        {(beschreibung || schwerpunkte.length > 0) && (
+          <div class="arzt-card-section blue-card">
+
+            <h2 class="arzt-card-heading-white">
+              {fachrichtung}
+            </h2>
+
+            {/* Bullet-Liste aus beschreibung */}
+            {beschreibung && (
+              <ul class="arzt-card-list-white">
+                {toLines(beschreibung).map((line) => (
+                  <li>{line}</li>
+                ))}
+              </ul>
+            )}
+
+            {/* Akkordeon-Buttons */}
+            {schwerpunkte.some((sp: any) => {
+              const spName = typeof sp === "string" ? sp : (sp.label ?? sp.name ?? sp.title ?? "");
+              return entries.some((e: any) => {
+                if (e.slug === slug) return false;
+                const tags = e.data.terms?.schwerpunkte ?? e.data.taxonomies?.schwerpunkte ?? [];
+                return tags.some((t: any) => (t.label ?? t.name ?? t.title ?? t) === spName);
+              });
+            }) && (
+              <div class="schwerpunkte-accordion" style="margin-top: 24px;">
+                {schwerpunkte.map((sp: any) => {
+                  const spName = typeof sp === "string" ? sp : (sp.label ?? sp.name ?? sp.title ?? "");
+                  const matchingAerzte = entries.filter((e: any) => {
+                    if (e.slug === slug) return false;
+                    const tags = e.data.terms?.schwerpunkte ?? e.data.taxonomies?.schwerpunkte ?? [];
+                    return tags.some((t: any) => (t.label ?? t.name ?? t.title ?? t) === spName);
+                  });
+                  if (matchingAerzte.length === 0) return null;
+                  return (
+                    <div class="sp-accordion-item">
+                      <button class="sp-accordion-btn" aria-expanded="false">
+                        <span class="sp-accordion-label">{spName}</span>
+                        <svg class="sp-accordion-icon" width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+                          <path d="M6 9L11 14L16 9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </button>
+                      <div class="sp-accordion-body">
+                        <div class="sp-aerzte-list">
+                          {matchingAerzte.map((arzt: any) => (
+                            <a class="sp-arzt-row" href={`/aerzte/${arzt.slug}`}>
+                              <span class="sp-arzt-row-name">{arzt.data.titel}</span>
+                              <span class="sp-arzt-row-arrow">→</span>
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+          </div>
+        )}
+
+        {/* LEBENSLAUF */}
+        {lebenslaufText && (
+          <div class="arzt-plain-section">
+
+            <h2 class="arzt-plain-heading">
+              {lebenslaufHeading || "Lebenslauf"}
+            </h2>
+
+            <ul class="arzt-plain-list">
+              {toLines(lebenslaufText).map((line) => (
+                <li>{line}</li>
+              ))}
+            </ul>
+
+          </div>
+        )}
+
+        {/* WEITERES */}
+        {weiteresText && (
+          <div class="arzt-plain-section">
+
+            <h2 class="arzt-plain-heading">
+              {weiteresHeading || "Weiteres"}
+            </h2>
+
+            <div class="arzt-plain-text-block">
+              {toLines(weiteresText).map((line) => (
+                <p>{line}</p>
+              ))}
+            </div>
+
+          </div>
+        )}
+
+        {/* PREISE */}
+        {preiseText && (
+          <div class="arzt-plain-section">
+
+            <h2 class="arzt-plain-heading">
+              {preiseHeading || "Preise"}
+            </h2>
+
+            <ul class="arzt-plain-list">
+              {toLines(preiseText).map((line) => (
+                <li>{line}</li>
+              ))}
+            </ul>
+
+          </div>
+        )}
+
+        {/* SPRACHEN */}
+        {sprachenText && (
+          <div class="arzt-plain-section">
+
+            <h2 class="arzt-plain-heading">
+              {sprachenHeading || "Sprachen"}
+            </h2>
+
+            <p class="arzt-plain-text">
+              {sprachenText}
+            </p>
+
+          </div>
+        )}
+
+        {/* WISSENSCHAFTLICHE ABSCHLÜSSE */}
+        {wissenschaftlicheText && (
+          <div class="arzt-plain-section">
+
+            <h2 class="arzt-plain-heading">
+              {wissenschaftlicheHeading || "Wissenschaftliche Abschlüsse"}
+            </h2>
+
+            <ul class="arzt-plain-list">
+              {toLines(wissenschaftlicheText).map((line) => (
+                <li>{line}</li>
+              ))}
+            </ul>
+
+          </div>
+        )}
+
+        {/* MITGLIEDSCHAFTEN */}
+        {mitgliedschaftenText && (
+          <div class="arzt-plain-section">
+
+            <h2 class="arzt-plain-heading">
+              {mitgliedschaftenHeading || "Mitgliedschaften"}
+            </h2>
+
+            <div class="arzt-plain-text-block">
+              {toLines(mitgliedschaftenText).map((line) => (
+                <p>{line}</p>
+              ))}
+            </div>
+
+          </div>
+        )}
+
+      </div>
+
+    </div>
+
+  </div>
+
+</Base>
+
+<script>
+
+  document
+    .querySelectorAll(".sp-accordion-btn")
+    .forEach((btn) => {
+
+      btn.addEventListener("click", () => {
+
+        const expanded =
+          btn.getAttribute("aria-expanded") === "true";
+
+        btn.setAttribute(
+          "aria-expanded",
+          String(!expanded)
+        );
+
+      });
+
+    });
+
+</script>

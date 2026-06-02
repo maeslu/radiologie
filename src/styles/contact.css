@@ -1,0 +1,459 @@
+/* ---------- Hero ---------- */
+.contact-hero {
+  background-color: #f0f4f8;
+  padding: 80px 40px 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 220px;
+}
+
+.contact-hero-subheading {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a6fa0;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 12px;
+}
+
+.contact-hero-heading {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 800;
+  color: #0d2b4e;
+  line-height: 1.15;
+  margin: 0;
+}
+
+/* ---------- Anruf Block ---------- */
+.contact-anruf {
+  padding: 80px 40px;    
+  background: #fff;
+  overflow: hidden;
+}
+
+.contact-anruf-inner {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr; 
+  gap: 64px;
+  align-items: center;
+  max-width: 1200px;       
+  margin: 0 auto;          
+}
+
+.contact-anruf-text {
+  max-width: 560px;
+ 
+  padding-left: 0;        
+}
+
+
+
+.contact-anruf-bild img {
+  width: 100%;
+  height: auto;            
+  max-height: 500px;       
+  object-fit: cover;
+  border-radius: 24px;     
+  display: block;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); 
+}
+
+.contact-anruf-subheading {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #1a6fa0;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 10px 0;
+}
+
+.contact-anruf-heading {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  color: #0d2b4e;
+  margin: 0 0 20px 0;
+  line-height: 1.15;
+}
+
+.contact-anruf-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: #3d4f63;
+  font-size: 1.08rem;
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+.contact-anruf-telefon {
+  font-size: 1rem;
+  color: #0d2b4e;
+  margin: 0;
+}
+
+.contact-anruf-telefon a {
+  color: #1a6fa0;
+  text-decoration: none;
+}
+
+.contact-anruf-telefon a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Hinweis Block ---------- */
+.contact-hinweis {
+  padding: 80px 40px;
+  background: #fff;
+  text-align: center;
+}
+
+.contact-hinweis-inner {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.contact-hinweis-heading {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 800;
+  color: #0d2b4e;
+  margin: 0 0 24px 0;
+}
+
+.contact-hinweis-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: #3d4f63;
+  font-size: 1.08rem;
+  line-height: 1.8;
+}
+
+/* ---------- Termin Block ---------- */
+.contact-termin {
+  padding: 80px 40px 40px;  /* Unten leicht reduziert, da margin-bottom übernimmt */
+  background: #fff;         /* Hintergrund von blau auf weiss geändert */
+  text-align: center;
+  margin-bottom: 120px;     /* Schafft deutlich mehr Platz zum nächsten Block */
+}
+
+.contact-termin-inner {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.contact-termin-heading {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 800;
+  color: #0d2b4e;
+  margin: 0 0 16px 0;
+}
+
+.contact-termin-subheading {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1a6fa0;
+  margin: 0 0 20px 0;
+}
+
+.contact-termin-text {
+  color: #3d4f63;
+  font-size: 1.08rem;
+  line-height: 1.8;
+  margin: 0;
+}
+
+/* ---------- Main Section ---------- */
+.contact-main {
+  padding: 64px 40px;
+  background: #fff;
+}
+
+.contact-main-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 64px;
+  align-items: start;
+}
+
+/* ---------- Contact Info ---------- */
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.contact-info-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.contact-info-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0d2b4e;
+  margin: 0 0 8px 0;
+}
+
+.contact-info-subtitle {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #1a6fa0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 4px 0;
+}
+
+.contact-info-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.contact-info-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.contact-info-link {
+  color: #1a6fa0;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.contact-info-link:hover {
+  color: #0d2b4e;
+  text-decoration: underline;
+}
+
+.contact-info-line {
+  margin: 0;
+  color: #3d4f63;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* ---------- Form Wrapper ---------- */
+.contact-form-wrap {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 2px 16px rgba(13, 43, 78, 0.07);
+}
+
+.contact-form-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #0d2b4e;
+  margin: 0 0 24px 0;
+}
+
+/* ---------- Alerts ---------- */
+.contact-alert {
+  padding: 14px 18px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.contact-alert--success {
+  background: #e6f4ea;
+  color: #1e6b34;
+  border: 1px solid #a8d5b5;
+}
+
+.contact-alert--error {
+  background: #fdecea;
+  color: #b71c1c;
+  border: 1px solid #f5c6c6;
+}
+
+/* ---------- Form ---------- */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.contact-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.contact-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.contact-form-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #0d2b4e;
+}
+
+.contact-required {
+  color: #c0392b;
+  margin-left: 2px;
+}
+
+.contact-optional {
+  color: #7a92a8;
+  font-weight: 400;
+  font-size: 0.8rem;
+}
+
+.contact-form-input {
+  padding: 11px 14px;
+  border: 1.5px solid #ccd8e4;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #0d2b4e;
+  background: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  font-family: inherit;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.contact-form-input:focus {
+  border-color: #1a6fa0;
+  box-shadow: 0 0 0 3px rgba(26, 111, 160, 0.12);
+}
+
+.contact-form-input::placeholder {
+  color: #aab8c6;
+}
+
+.contact-form-select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%231a6fa0' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+.contact-form-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* ---------- Honeypot ---------- */
+.contact-honeypot {
+  display: none !important;
+  visibility: hidden;
+  position: absolute;
+  left: -9999px;
+}
+
+/* ---------- Submit Button ---------- */
+.contact-form-submit {
+  margin-top: 8px;
+  padding: 14px 32px;
+  background-color: #0d2b4e;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.15s;
+  align-self: flex-start;
+  font-family: inherit;
+}
+
+.contact-form-submit:hover {
+  background-color: #1a6fa0;
+  transform: translateY(-1px);
+}
+
+.contact-form-submit:active {
+  transform: translateY(0);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+  .contact-hero {
+    padding: 60px 24px 40px;
+  }
+
+  .contact-anruf {
+    padding: 80px 0;
+    background: #fff;
+    overflow: hidden;
+    width: 100%;
+    max-width: 100vw;
+  }
+  
+  .contact-anruf-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .contact-anruf-text {
+    max-width: 560px;
+    margin-left: auto;
+    padding-left: 40px;
+  }
+
+  .contact-anruf-bild {
+    overflow: hidden;
+    max-width: 100%;
+  }
+  
+  .contact-anruf-bild img {
+    width: 100%;
+    height: 480px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 16px 0 0 16px;
+    display: block;
+    max-width: 100%;
+  }
+
+  .contact-hinweis {
+    padding: 80px 40px 120px;
+    background: #fff;
+    text-align: center;
+  }
+
+  .contact-termin {
+    padding: 60px 24px;
+    background: #fff;         
+    text-align: center;
+    margin-bottom: 60px;      
+  }
+
+  .contact-main {
+    padding: 64px 40px;
+    background: #fff;
+  }
+
+  .contact-main-inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-form-wrap {
+    padding: 24px 20px;
+  }
+}

@@ -1,0 +1,29 @@
+.home-about {
+    padding: var(--spacing-4xl) 0;
+  }
+  
+  .home-about-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-3xl);
+    align-items: center;
+  }
+  
+  .home-about-image img {
+    width: 100%;
+    border-radius: 16px;
+    object-fit: cover;
+    min-height: 400px;
+  }
+  
+  .home-about-content p {
+    color: var(--color-text-muted);
+    line-height: 1.8;
+    font-size: var(--font-size-md);
+  }
+  
+  @media (max-width: 768px) {
+    .home-about-inner {
+      grid-template-columns: 1fr;
+    }
+  }

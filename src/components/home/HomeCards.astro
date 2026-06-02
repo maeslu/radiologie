@@ -1,0 +1,26 @@
+---
+import Card from "../Card.astro";
+import "../../styles/home-cards.css";
+
+export interface HomeCard {
+	image: string;
+	alt: string;
+	title?: string;
+	description?: string;
+	href?: string;
+}
+
+interface Props {
+	cards: HomeCard[];
+}
+
+const { cards } = Astro.props;
+---
+
+<section class="home-cards">
+	<div class="container home-cards-grid">
+		{cards.map((card) => (
+			<Card {...card} />
+		))}
+	</div>
+</section>

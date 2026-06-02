@@ -1,0 +1,19 @@
+.page-placeholder {
+	text-align: center;
+	padding: var(--spacing-5xl) var(--spacing-lg);
+}
+
+.page-placeholder h1 {
+	margin-bottom: var(--spacing-md);
+	color: var(--color-brand-navy, var(--color-text));
+}
+
+.page-placeholder p {
+	max-width: 36rem;
+	margin: 0 auto var(--spacing-xl);
+	color: var(--color-muted);
+}
+
+.page-placeholder .btn {
+	border-radius: var(--radius-full);
+}

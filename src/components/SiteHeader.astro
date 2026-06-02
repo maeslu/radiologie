@@ -1,0 +1,112 @@
+---
+import { getMenu } from "emdash";
+import "../styles/site-header.css";
+
+interface Props {
+  siteTitle: string;
+  siteLogo: { url: string; alt?: string } | null;
+}
+const { siteTitle, siteLogo } = Astro.props;
+
+const menu = await getMenu("primary");
+
+const navItems: any[] = [];
+for (const item of menu?.items ?? []) {
+  if (item.label.startsWith('> ')) {
+    if (navItems.length > 0) {
+      const parent = navItems[navItems.length - 1];
+      if (!parent.children) parent.children = [];
+      parent.children.push({ label: item.label.slice(2), url: item.url });
+    }
+  } else {
+    navItems.push({ label: item.label, url: item.url, children: [] });
+  }
+}
+
+---
+
+<header class="site-header">
+  <div class="header-top">
+    <div class="header-top-inner">
+      <div class="header-top-contact">
+        <a href="tel:+497221300970">07221 30097-0</a>
+        <a href="mailto:info@radiologie-baden-baden.de">info@radiologie-baden-baden.de</a>
+      </div>
+      <a href="/" class="header-lang" aria-current="page">
+        DE
+        <svg class="header-lang-chevron" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+          <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+  <nav class="nav" aria-label="Hauptnavigation">
+    <a href="/" class="site-logo">
+      {siteLogo ? (
+        <img src={siteLogo.url} alt={siteLogo.alt || siteTitle} class="site-logo-img" />
+      ) : (
+        <>
+          <span class="site-logo-mark" aria-hidden="true"></span>
+          <span class="site-logo-text">
+            <span>Radiologie</span>
+            <span>Baden-Baden</span>
+          </span>
+        </>
+      )}
+    </a>
+    <div class="nav-links">
+      {navItems.map((item) =>
+        item.children && item.children.length > 0 && item.label !== 'Kontakt' ? (
+          <div class="nav-dropdown">
+            <button type="button" class="nav-dropdown-trigger">
+              {item.label}
+              <svg class="nav-chevron" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </button>
+            <div class="nav-dropdown-panel">
+              {item.children.filter((link) => !link.withIcon).map((link) => (
+                <a href={link.url} class="nav-dropdown-link">{link.label}</a>
+              ))}
+              {item.children.some((link) => link.withIcon) && (
+                <>
+                  <hr class="nav-dropdown-divider" />
+                  {item.children.filter((link) => link.withIcon).map((link) => (
+                    <a href={link.url} class="nav-dropdown-link nav-dropdown-link-icon">
+                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M12 21s-6-5.148-6-10a6 6 0 1 1 12 0c0 4.852-6 10-6 10Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <circle cx="12" cy="11" r="2.5" stroke="currentColor" stroke-width="1.5"></circle>
+                      </svg>
+                      {link.label}
+                    </a>
+                  ))}
+                </>
+              )}
+            </div>
+          </div>
+        ) : (
+          <a href={item.url} class="nav-link">{item.label}</a>
+        )
+      )}
+    </div>
+    <div class="nav-actions">
+      <a href="/kontakt" class="nav-cta">Termin vereinbaren</a>
+    </div>
+  </nav>
+  <script>
+  document.querySelectorAll('.nav-dropdown').forEach((dropdown) => {
+    let closeTimer;
+
+    dropdown.addEventListener('mouseenter', () => {
+      clearTimeout(closeTimer);
+      dropdown.querySelector('.nav-dropdown-panel')?.classList.add('open');
+    });
+
+    dropdown.addEventListener('mouseleave', () => {
+      closeTimer = setTimeout(() => {
+        dropdown.querySelector('.nav-dropdown-panel')?.classList.remove('open');
+      }, 150);
+    });
+  });
+</script>
+</header>

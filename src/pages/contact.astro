@@ -1,0 +1,247 @@
+---
+import Base from "../layouts/Base.astro";
+import "../styles/contact.css";
+import { getEmDashCollection } from "emdash";
+
+const { entries } = await getEmDashCollection("contact_page");
+const contactPage = entries[0]?.data ?? {};
+
+// Hero
+const subheading = contactPage.subheading ?? "";
+const heading = contactPage.haupt_berschrift ?? "";
+
+// Kontaktinfos
+const praxisName = contactPage.praxis_name ?? "";
+const telefon = contactPage.telefon ?? "";
+const email = contactPage.email ?? "";
+const adresse = contactPage.adresse ?? "";
+const oeffnungszeiten = contactPage.oeffnungszeiten ?? "";
+
+// Formular Labels
+const labelVorname = contactPage.label_vorname ?? "Vorname";
+const labelNachname = contactPage.label_nachname ?? "Nachname";
+const labelEmail = contactPage.label_email ?? "E-Mail";
+const labelTelefon = contactPage.label_telefon ?? "Telefon";
+const labelBetreff = contactPage.label_betreff ?? "Betreff";
+const labelNachricht = contactPage.label_nachricht ?? "Nachricht";
+const buttonText = contactPage.button_text ?? "Nachricht senden";
+const betreffOptionen = (contactPage.betreff_optionen ?? "").split("\n").filter(Boolean);
+
+// Anruf Block
+const anrufSubheading = contactPage.anruf_subheading ?? "";
+const anrufHeading = contactPage.anruf_heading ?? "";
+const anrufText = contactPage.anruf_text ?? "";
+const anrufTelefon = contactPage.anruf_telefon ?? "";
+const anrufBildUrl = contactPage.anruf_bild?.meta?.storageKey
+  ? `/_emdash/api/media/file/${contactPage.anruf_bild.meta.storageKey}`
+  : "";
+
+// Hinweis Block
+const hinweisHeading = contactPage.hinweis_heading ?? "";
+const hinweisText = contactPage.hinweis_text ?? "";
+
+// Termin Block
+const terminHeading = contactPage.termin_heading ?? "";
+const terminSubheading = contactPage.termin_subheading ?? "";
+const terminText = contactPage.termin_text ?? "";
+
+// Status wird jetzt per fetch/JS verwaltet, kein URL-Parameter mehr nötig
+const status = null;
+---
+
+<Base
+  title="Kontakt"
+  description="Kontaktieren Sie die Radiologie Baden-Baden – per Telefon, E-Mail oder über unser Kontaktformular."
+>
+  <!-- Hero -->
+  <section class="contact-hero">
+    <div class="contact-hero-content">
+      {subheading && <p class="contact-hero-subheading">{subheading}</p>}
+      {heading && <h1 class="contact-hero-heading">{heading}</h1>}
+    </div>
+  </section>
+
+  <!-- Anruf Block -->
+  {(anrufHeading || anrufText) && (
+    <section class="contact-anruf">
+      <div class="contact-anruf-inner">
+        <div class="contact-anruf-text">
+          {anrufSubheading && <p class="contact-anruf-subheading">{anrufSubheading}</p>}
+          {anrufHeading && <h2 class="contact-anruf-heading">{anrufHeading}</h2>}
+          {anrufText && (
+            <div class="contact-anruf-body">
+              {anrufText.split("\n").filter(Boolean).map((line) => (
+                <p>{line}</p>
+              ))}
+            </div>
+          )}
+          {anrufTelefon && (
+            <p class="contact-anruf-telefon">
+              <strong>Telefon: <a href={`tel:${anrufTelefon.replace(/\s/g, "")}`}>{anrufTelefon}</a></strong>
+            </p>
+          )}
+        </div>
+        {anrufBildUrl && (
+          <div class="contact-anruf-bild">
+            <img src={anrufBildUrl} alt="Empfang" />
+          </div>
+        )}
+      </div>
+    </section>
+  )}
+
+  <!-- Hinweis Block -->
+  {(hinweisHeading || hinweisText) && (
+    <section class="contact-hinweis">
+      <div class="contact-hinweis-inner">
+        {hinweisHeading && <h2 class="contact-hinweis-heading">{hinweisHeading}</h2>}
+        {hinweisText && (
+          <div class="contact-hinweis-body">
+            {hinweisText.split("\n").filter(Boolean).map((line) => (
+              <p>{line}</p>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  )}
+
+  <!-- Termin Block -->
+  {(terminHeading || terminText) && (
+    <section class="contact-termin">
+      <div class="contact-termin-inner">
+        {terminHeading && <h2 class="contact-termin-heading">{terminHeading}</h2>}
+        {terminSubheading && <h3 class="contact-termin-subheading">{terminSubheading}</h3>}
+        {terminText && <p class="contact-termin-text">{terminText}</p>}
+      </div>
+    </section>
+  )}
+
+  <!-- Kontaktformular -->
+  <section class="contact-main">
+    <div class="contact-main-inner">
+      <div class="contact-info">
+        {praxisName && (
+          <div class="contact-info-block">
+            <h2 class="contact-info-title">{praxisName}</h2>
+            {telefon && (
+              <div class="contact-info-item">
+                <span class="contact-info-icon">📞</span>
+                <a href={`tel:${telefon.replace(/\s/g, "")}`} class="contact-info-link">{telefon}</a>
+              </div>
+            )}
+            {email && (
+              <div class="contact-info-item">
+                <span class="contact-info-icon">✉️</span>
+                <a href={`mailto:${email}`} class="contact-info-link">{email}</a>
+              </div>
+            )}
+          </div>
+        )}
+        {adresse && (
+          <div class="contact-info-block">
+            <h3 class="contact-info-subtitle">Adresse</h3>
+            {adresse.split("\n").filter(Boolean).map((line) => (
+              <p class="contact-info-line">{line}</p>
+            ))}
+          </div>
+        )}
+        {oeffnungszeiten && (
+          <div class="contact-info-block">
+            <h3 class="contact-info-subtitle">Öffnungszeiten</h3>
+            {oeffnungszeiten.split("\n").filter(Boolean).map((line) => (
+              <p class="contact-info-line">{line}</p>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div class="contact-form-wrap">
+        <h2 class="contact-form-title">Nachricht senden</h2>
+        <div id="form-alert" class="contact-alert" style="display:none;"></div>
+        <form id="contact-form" action="http://localhost:8080/contact.php" method="POST" novalidate>
+          <div class="contact-form-row">
+            <div class="contact-form-group">
+              <label class="contact-form-label" for="vorname">{labelVorname} <span class="contact-required">*</span></label>
+              <input class="contact-form-input" type="text" id="vorname" name="vorname" required autocomplete="given-name" />
+            </div>
+            <div class="contact-form-group">
+              <label class="contact-form-label" for="nachname">{labelNachname} <span class="contact-required">*</span></label>
+              <input class="contact-form-input" type="text" id="nachname" name="nachname" required autocomplete="family-name" />
+            </div>
+          </div>
+          <div class="contact-form-group">
+            <label class="contact-form-label" for="email">{labelEmail} <span class="contact-required">*</span></label>
+            <input class="contact-form-input" type="email" id="email" name="email" required autocomplete="email" />
+          </div>
+          <div class="contact-form-group">
+            <label class="contact-form-label" for="telefon">{labelTelefon} <span class="contact-optional">(optional)</span></label>
+            <input class="contact-form-input" type="tel" id="telefon" name="telefon" autocomplete="tel" />
+          </div>
+          {betreffOptionen.length > 0 && (
+            <div class="contact-form-group">
+              <label class="contact-form-label" for="betreff">{labelBetreff} <span class="contact-required">*</span></label>
+              <select class="contact-form-input contact-form-select" id="betreff" name="betreff" required>
+                <option value="">Bitte wählen …</option>
+                {betreffOptionen.map((option) => (
+                  <option value={option}>{option}</option>
+                ))}
+              </select>
+            </div>
+          )}
+          <div class="contact-form-group">
+            <label class="contact-form-label" for="nachricht">{labelNachricht} <span class="contact-required">*</span></label>
+            <textarea class="contact-form-input contact-form-textarea" id="nachricht" name="nachricht" required rows="5"></textarea>
+          </div>
+          <div class="contact-honeypot" aria-hidden="true">
+            <input type="text" name="website" tabindex="-1" autocomplete="off" />
+          </div>
+          <button type="submit" class="contact-form-submit" id="submit-btn">{buttonText}</button>
+        </form>
+      </div>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const alert = document.getElementById('form-alert') as HTMLDivElement;
+  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+
+  function showAlert(message: string, type: 'success' | 'error') {
+    alert.textContent = (type === 'success' ? '✅ ' : '❌ ') + message;
+    alert.className = `contact-alert contact-alert--${type}`;
+    alert.style.display = 'block';
+    alert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  const originalBtnText = submitBtn.textContent ?? 'Nachricht senden';
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Wird gesendet …';
+    alert.style.display = 'none';
+
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        showAlert(data.message, 'success');
+        form.reset();
+      } else {
+        showAlert(data.message, 'error');
+      }
+    } catch {
+      showAlert('Verbindung zum Server fehlgeschlagen. Bitte versuchen Sie es später erneut.', 'error');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalBtnText;
+    }
+  });
+</script>
+    </div>
+  </section>
+</Base>

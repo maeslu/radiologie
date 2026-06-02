@@ -1,0 +1,36 @@
+---
+import "../../styles/home-team.css";
+
+interface Props {
+  title?: string;
+  text?: string;
+  buttonLabel?: string;
+  buttonHref?: string;
+  image?: string;
+  imageAlt?: string;
+}
+
+const {
+  title = "",
+  text = "",
+  buttonLabel = "",
+  buttonHref = "/",
+  image = "",
+  imageAlt = "Team",
+} = Astro.props;
+---
+
+<section class="home-team">
+  <div class="container home-team-inner">
+    <div class="home-team-content">
+      <h2>{title}</h2>
+      <p>{text}</p>
+      <a href={buttonHref} class="btn btn-primary">{buttonLabel}</a>
+    </div>
+    {image && (
+      <div class="home-team-image">
+        <img src={image} alt={imageAlt} />
+      </div>
+    )}
+  </div>
+</section>

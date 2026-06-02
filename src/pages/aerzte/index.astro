@@ -1,0 +1,153 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getEmDashCollection } from "emdash";
+import "../../styles/aerzte.css";
+
+function fotoUrl(field: any): string {
+  return field?.meta?.storageKey
+    ? `/_emdash/api/media/file/${field.meta.storageKey}`
+    : "";
+}
+
+const { entries } = await getEmDashCollection("arzt");
+
+const alleSchwerpunkte = new Set<string>();
+for (const arzt of entries) {
+  const tags = arzt.data.terms?.schwerpunkte ?? arzt.data.taxonomies?.schwerpunkte ?? [];
+  for (const tag of tags) {
+    const name = typeof tag === "string" ? tag : (tag.label ?? tag.name ?? tag.title ?? "");
+    if (name) alleSchwerpunkte.add(name);
+  }
+}
+
+const schwerpunkteList = Array.from(alleSchwerpunkte).sort((a, b) =>
+  a.localeCompare(b, "de")
+);
+---
+
+<Base title="Unsere Ärzte">
+
+  <div class="aerzte-hero">
+    <div class="aerzte-hero-inner">
+      <h1 class="aerzte-hero-heading">Unsere Ärzte</h1>
+    </div>
+  </div>
+
+  <section class="aerzte-section">
+    <div class="aerzte-layout">
+
+      <!-- Sidebar Filter -->
+      {schwerpunkteList.length > 0 && (
+        <aside class="sp-sidebar">
+          <p class="sp-sidebar-label">Schwerpunkte</p>
+          <div class="sp-filter-wrap">
+            {schwerpunkteList.map((sp) => (
+              <button class="sp-filter-btn" data-filter={sp}>
+                {sp}
+              </button>
+            ))}
+          </div>
+        </aside>
+      )}
+
+      <!-- Ärzte Grid -->
+      <div class="aerzte-main">
+        <div class="aerzte-grid" id="aerzte-grid">
+          {entries.map((arzt: any) => {
+            const name         = arzt.data.titel ?? arzt.data.title ?? "";
+            const subheading   = arzt.data.subheading ?? "";
+            const fachrichtung = arzt.data.intro_text ?? arzt.data.fachrichtung ?? "";
+            const foto         = fotoUrl(arzt.data.foto);
+            const btnText      = arzt.data.mehr_erfahren ?? "Mehr erfahren";
+            const schwerpunkte = (
+              arzt.data.terms?.schwerpunkte ??
+              arzt.data.taxonomies?.schwerpunkte ??
+              []
+            ).map((t: any) => t.label ?? t.name ?? t.title ?? t).filter(Boolean);
+
+            return (
+              <a
+                href={`/aerzte/${arzt.slug}`}
+                class="arzt-card"
+                data-schwerpunkte={JSON.stringify(schwerpunkte)}
+              >
+                <div class="arzt-img-wrap">
+                  {foto ? (
+                    <img src={foto} alt={name} class="arzt-img" loading="lazy" />
+                  ) : (
+                    <div class="arzt-img-placeholder">
+                      <svg width="64" height="64" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+                        <circle cx="32" cy="24" r="12" stroke="#94a3b8" stroke-width="2"/>
+                        <path d="M8 56c0-13.255 10.745-24 24-24s24 10.745 24 24" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/>
+                      </svg>
+                    </div>
+                  )}
+                </div>
+                <div class="arzt-content">
+                  {subheading && <p class="arzt-subheading">{subheading}</p>}
+                  <h2 class="arzt-name">{name}</h2>
+                  {fachrichtung && <p class="arzt-fachrichtung">{fachrichtung}</p>}
+                  <span class="arzt-btn">{btnText}</span>
+                </div>
+              </a>
+            );
+          })}
+        </div>
+
+        <p id="keine-ergebnisse" style="display:none; color:#666; margin-top:40px; font-size:18px;">
+          Keine Ärzte für diesen Schwerpunkt gefunden.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+</Base>
+
+
+<script>
+  // Multi Select 
+  const filterBtns = document.querySelectorAll<HTMLButtonElement>('.sp-filter-btn');
+  const grid       = document.getElementById('aerzte-grid')!;
+  const keineMsg   = document.getElementById('keine-ergebnisse')!;
+
+  const aktiveFilter = new Set<string>();
+
+  function filterAerzte() {
+    const karten = grid.querySelectorAll<HTMLElement>('.arzt-card');
+    let sichtbar = 0;
+
+    karten.forEach(karte => {
+      const sp: string[] = JSON.parse(karte.dataset.schwerpunkte ?? '[]');
+      const zeigen =
+        aktiveFilter.size === 0 ||
+        [...aktiveFilter].some(f => sp.includes(f));
+      karte.classList.toggle('sp-hidden', !zeigen);
+      if (zeigen) sichtbar++;
+    });
+
+    keineMsg.style.display = sichtbar === 0 ? 'block' : 'none';
+  }
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter ?? '';
+
+      if (aktiveFilter.has(filter)) {
+        aktiveFilter.delete(filter);
+        btn.classList.remove('sp-filter-active');
+      } else {
+        aktiveFilter.add(filter);
+        btn.classList.add('sp-filter-active');
+      }
+
+      if (aktiveFilter.size === 0) {
+        grid.querySelectorAll<HTMLElement>('.arzt-card').forEach(k => k.classList.remove('sp-hidden'));
+        keineMsg.style.display = 'none';
+        return;
+      }
+
+      filterAerzte();
+    });
+  });
+</script>

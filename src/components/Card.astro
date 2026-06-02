@@ -1,0 +1,29 @@
+---
+import "../styles/card.css";
+
+interface Props {
+	image: string;
+	alt: string;
+	title?: string;
+	description?: string;
+	href?: string;
+}
+
+const { image, alt, title, description, href } = Astro.props;
+const showBody = title || description;
+---
+
+<article class="card">
+	<div class="card-image">
+		<img src={image} alt={alt} loading="lazy" width="400" height="260" />
+	</div>
+	{showBody && (
+		<div class="card-body">
+			{title && <h2 class="card-title">{title}</h2>}
+			{description && <p class="card-description">{description}</p>}
+			{href && (
+				<a href={href} class="card-button">Mehr erfahren</a>
+			)}
+		</div>
+	)}
+</article>

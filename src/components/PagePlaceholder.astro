@@ -1,0 +1,21 @@
+---
+import Base from "../layouts/Base.astro";
+import "../styles/page-placeholder.css";
+
+interface Props {
+	title: string;
+	description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<Base {title} description={description}>
+	<section class="page-placeholder section">
+		<div class="container">
+			<h1>{title}</h1>
+			<p>{description}</p>
+			<a href="/" class="btn btn-primary">Zur Startseite</a>
+		</div>
+	</section>
+</Base>

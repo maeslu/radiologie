@@ -1,0 +1,303 @@
+---
+import Base from "../layouts/Base.astro";
+import "../styles/ueber-uns.css";
+import { getEmDashCollection } from "emdash";
+
+const { entries } = await getEmDashCollection("ueber_uns_page");
+const page = entries[0]?.data ?? {};
+
+// ── Hero ─────────────────────────────────────────────────────
+const heroSubheading  = page.hero_subheading ?? "";
+const heroHeading     = page.hero_heading ?? "";
+const heroText        = page.hero_text ?? "";
+const heroBildUrl     = page.hero_bild?.meta?.storageKey
+  ? `/_emdash/api/media/file/${page.hero_bild.meta.storageKey}`
+  : "";
+
+// ── Ärzte Block ──────────────────────────────────────────────
+const aerzteHeading   = page.aerzte_heading ?? "";
+const aerzteText      = page.aerzte_text ?? "";
+const aerzteLinkText  = page.aerzte_link_text ?? "";
+const aerzteLinkUrl   = page.aerzte_link_url ?? "/aerzte";
+
+// ── Standorte ────────────────────────────────────────────────
+const standorteHeading = page.standorte_heading ?? "";
+// Array von Objekten: { name, adresse, link_text, link_url, bild }
+const standorte = page.standorte ?? [];
+
+// ── Leitbild ─────────────────────────────────────────────────
+const leitbildHeading = page.leitbild_heading ?? "";
+const leitbildIntro   = page.leitbild_intro ?? "";
+// Array von Objekten: { heading, text }
+const leitbildPunkte  = page.leitbild_punkte ?? [];
+
+// ── Forschung & Lehre ────────────────────────────────────────
+const forschungHeading = page.forschung_heading ?? "";
+const forschungText    = page.forschung_text ?? "";
+
+// ── Kooperationen ────────────────────────────────────────────
+const koopHeading = page.koop_heading ?? "";
+const koopText    = page.koop_text ?? "";
+
+// ── Fachmitgliedschaften ─────────────────────────────────────
+const mitgliedHeading = page.mitglied_heading ?? "";
+// Array von Objekten: { link_url, bild, alt }
+const mitgliedLogos   = page.mitglied_logos ?? [];
+
+// ── Zertifikate ──────────────────────────────────────────────
+const zertHeading = page.zert_heading ?? "";
+const zertIntro   = page.zert_intro ?? "";
+// Array von Objekten: { bild, heading, text, link_text, link_url }
+const zertifikate = page.zertifikate ?? [];
+
+// ── Aktuelles ────────────────────────────────────────────────
+const aktuellesHeading  = page.aktuelles_heading ?? "";
+const aktuellesLinkText = page.aktuelles_link_text ?? "";
+const aktuellesLinkUrl  = page.aktuelles_link_url ?? "/aktuelles";
+// Array von Objekten: { datum, heading, link_url }
+const aktuellesPosts    = page.aktuelles_posts ?? [];
+
+// ── Stellenangebote ──────────────────────────────────────────
+const stellenHeading = page.stellen_heading ?? "";
+const stellenText    = page.stellen_text ?? "";
+// Array von Strings (eine Stelle pro Zeile)
+const stellenAngebote = (page.stellen_angebote ?? "").split("\n").filter(Boolean);
+const stellenAdresse  = page.stellen_adresse ?? "";
+const stellenEmail    = page.stellen_email ?? "";
+---
+
+<Base
+  title="Über uns"
+  description="Erfahren Sie mehr über die Radiologie Baden-Baden – unser Team, Leitbild, Zertifikate und Stellenangebote."
+>
+
+  <!-- Hero -->
+  <section class="ueber-hero">
+    {heroBildUrl && (
+      <div class="ueber-hero-bild">
+        <img src={heroBildUrl} alt="Radiologie Baden-Baden Team" />
+      </div>
+    )}
+    <div class="ueber-hero-content">
+      {heroSubheading && <p class="ueber-hero-subheading">{heroSubheading}</p>}
+      {heroHeading    && <h1 class="ueber-hero-heading">{heroHeading}</h1>}
+      {heroText && (
+        <div class="ueber-hero-text">
+          {heroText.split("\n").filter(Boolean).map((line: string) => <p>{line}</p>)}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- Ärzte -->
+  {(aerzteHeading || aerzteText) && (
+    <section class="ueber-aerzte">
+      <div class="ueber-section-inner">
+        {aerzteHeading && <h2 class="ueber-section-heading">{aerzteHeading}</h2>}
+        {aerzteText && (
+          <div class="ueber-aerzte-text">
+            {aerzteText.split("\n").filter(Boolean).map((line: string) => <p>{line}</p>)}
+          </div>
+        )}
+        {aerzteLinkText && (
+          <a href={aerzteLinkUrl} class="ueber-btn">{aerzteLinkText}</a>
+        )}
+      </div>
+    </section>
+  )}
+
+  <!-- Standorte -->
+  {(standorteHeading || standorte.length > 0) && (
+    <section class="ueber-standorte">
+      <div class="ueber-section-inner">
+        {standorteHeading && <h2 class="ueber-section-heading">{standorteHeading}</h2>}
+        <div class="ueber-standorte-grid">
+          {standorte.map((s: any) => {
+            const bildUrl = s.bild?.meta?.storageKey
+              ? `/_emdash/api/media/file/${s.bild.meta.storageKey}`
+              : "";
+            return (
+              <div class="ueber-standort-card">
+                {bildUrl && <img src={bildUrl} alt={s.name ?? ""} class="ueber-standort-bild" />}
+                {s.name    && <h3 class="ueber-standort-name">{s.name}</h3>}
+                {s.adresse && (
+                  <div class="ueber-standort-adresse">
+                    {s.adresse.split("\n").filter(Boolean).map((line: string) => <p>{line}</p>)}
+                  </div>
+                )}
+                {s.link_text && s.link_url && (
+                  <a href={s.link_url} class="ueber-link" target="_blank" rel="noopener">{s.link_text}</a>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Leitbild -->
+  {(leitbildHeading || leitbildPunkte.length > 0) && (
+    <section class="ueber-leitbild">
+      <div class="ueber-section-inner">
+        {leitbildHeading && <h2 class="ueber-section-heading">{leitbildHeading}</h2>}
+        {leitbildIntro && (
+          <div class="ueber-leitbild-intro">
+            {leitbildIntro.split("\n").filter(Boolean).map((line: string) => <p>{line}</p>)}
+          </div>
+        )}
+        <div class="ueber-leitbild-punkte">
+          {leitbildPunkte.map((punkt: any) => (
+            <div class="ueber-leitbild-punkt">
+              {punkt.heading && <h3 class="ueber-leitbild-punkt-heading">{punkt.heading}</h3>}
+              {punkt.text && (
+                <div class="ueber-leitbild-punkt-text">
+                  {punkt.text.split("\n").filter(Boolean).map((line: string) => <p>{line}</p>)}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Forschung & Lehre -->
+  {(forschungHeading || forschungText) && (
+    <section class="ueber-forschung">
+      <div class="ueber-section-inner">
+        {forschungHeading && <h2 class="ueber-section-heading">{forschungHeading}</h2>}
+        {forschungText && (
+          <div class="ueber-forschung-text">
+            {forschungText.split("\n").filter(Boolean).map((line: string) => <p>{line}</p>)}
+          </div>
+        )}
+      </div>
+    </section>
+  )}
+
+  <!-- Kooperationen -->
+  {(koopHeading || koopText) && (
+    <section class="ueber-koop">
+      <div class="ueber-section-inner">
+        {koopHeading && <h2 class="ueber-section-heading">{koopHeading}</h2>}
+        {koopText && (
+          <div class="ueber-koop-text">
+            {koopText.split("\n").filter(Boolean).map((line: string) => <p>{line}</p>)}
+          </div>
+        )}
+      </div>
+    </section>
+  )}
+
+  <!-- Fachmitgliedschaften -->
+  {(mitgliedHeading || mitgliedLogos.length > 0) && (
+    <section class="ueber-mitglied">
+      <div class="ueber-section-inner">
+        {mitgliedHeading && <h2 class="ueber-section-heading">{mitgliedHeading}</h2>}
+        <div class="ueber-logos-grid">
+          {mitgliedLogos.map((logo: any) => {
+            const bildUrl = logo.bild?.meta?.storageKey
+              ? `/_emdash/api/media/file/${logo.bild.meta.storageKey}`
+              : "";
+            return bildUrl ? (
+              <a href={logo.link_url ?? "#"} target="_blank" rel="noopener" class="ueber-logo-link">
+                <img src={bildUrl} alt={logo.alt ?? ""} class="ueber-logo" />
+              </a>
+            ) : null;
+          })}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Zertifikate -->
+  {(zertHeading || zertifikate.length > 0) && (
+    <section class="ueber-zert">
+      <div class="ueber-section-inner">
+        {zertHeading && <h2 class="ueber-section-heading">{zertHeading}</h2>}
+        {zertIntro && (
+          <div class="ueber-zert-intro">
+            {zertIntro.split("\n").filter(Boolean).map((line: string) => <p>{line}</p>)}
+          </div>
+        )}
+        <div class="ueber-zert-grid">
+          {zertifikate.map((z: any) => {
+            const bildUrl = z.bild?.meta?.storageKey
+              ? `/_emdash/api/media/file/${z.bild.meta.storageKey}`
+              : "";
+            return (
+              <div class="ueber-zert-card">
+                {bildUrl && <img src={bildUrl} alt={z.heading ?? ""} class="ueber-zert-logo" />}
+                {z.heading && <h3 class="ueber-zert-heading">{z.heading}</h3>}
+                {z.text && <p class="ueber-zert-text">{z.text}</p>}
+                {z.link_text && z.link_url && (
+                  <a href={z.link_url} class="ueber-link" target="_blank" rel="noopener">{z.link_text}</a>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Aktuelles -->
+  {(aktuellesHeading || aktuellesPosts.length > 0) && (
+    <section class="ueber-aktuelles">
+      <div class="ueber-section-inner">
+        {aktuellesHeading && <h2 class="ueber-section-heading">{aktuellesHeading}</h2>}
+        <div class="ueber-aktuelles-liste">
+          {aktuellesPosts.map((post: any) => (
+            <div class="ueber-aktuelles-item">
+              {post.datum   && <p class="ueber-aktuelles-datum">{post.datum}</p>}
+              {post.heading && (
+                <h3 class="ueber-aktuelles-heading">
+                  {post.link_url
+                    ? <a href={post.link_url}>{post.heading}</a>
+                    : post.heading
+                  }
+                </h3>
+              )}
+            </div>
+          ))}
+        </div>
+        {aktuellesLinkText && (
+          <a href={aktuellesLinkUrl} class="ueber-btn">{aktuellesLinkText}</a>
+        )}
+      </div>
+    </section>
+  )}
+
+  <!-- Stellenangebote -->
+  {(stellenHeading || stellenText) && (
+    <section class="ueber-stellen">
+      <div class="ueber-section-inner">
+        {stellenHeading && <h2 class="ueber-section-heading">{stellenHeading}</h2>}
+        {stellenText && (
+          <div class="ueber-stellen-text">
+            {stellenText.split("\n").filter(Boolean).map((line: string) => <p>{line}</p>)}
+          </div>
+        )}
+        {stellenAngebote.length > 0 && (
+          <ul class="ueber-stellen-liste">
+            {stellenAngebote.map((stelle: string) => (
+              <li set:html={stelle} />
+            ))}
+          </ul>
+        )}
+        {stellenAdresse && (
+          <div class="ueber-stellen-adresse">
+            {stellenAdresse.split("\n").filter(Boolean).map((line: string) => <p>{line}</p>)}
+          </div>
+        )}
+        {stellenEmail && (
+          <p class="ueber-stellen-email">
+            E-Mail: <a href={`mailto:${stellenEmail}`}>{stellenEmail}</a>
+          </p>
+        )}
+      </div>
+    </section>
+  )}
+
+</Base>

@@ -1,0 +1,52 @@
+---
+import { getEmDashCollection } from "emdash";
+import "../../styles/team.css";
+
+const { entries } = await getEmDashCollection("contact_page");
+const contactPage = entries[0]?.data ?? {};
+
+const praxisName = contactPage.praxis_name ?? "";
+const telefon    = contactPage.telefon ?? "";
+const adresse    = contactPage.adresse ?? "";
+const oeffnungszeiten = contactPage.oeffnungszeiten ?? "";
+---
+
+{(praxisName || adresse) && (
+  <footer class="team-info-footer">
+    <div class="team-info-inner">
+      {praxisName && (
+        <div class="team-info-col">
+          <p class="team-info-title">{praxisName}</p>
+          {telefon && <p class="team-info-phone">📞 {telefon}</p>}
+          {oeffnungszeiten && (
+            <>
+              <p class="team-info-subtitle">Öffnungszeiten</p>
+              {oeffnungszeiten.split("\n").filter(Boolean).map((line) => (
+                <p class="team-info-line">{line}</p>
+              ))}
+            </>
+          )}
+        </div>
+      )}
+      {adresse && (
+        <div class="team-info-col">
+          <p class="team-info-title">Adresse</p>
+          {adresse.split("\n").filter(Boolean).map((line) => (
+            <p class="team-info-line">{line}</p>
+          ))}
+        </div>
+      )}
+    </div>
+  </footer>
+)}
+
+<div class="team-footer-bottom">
+  <div class="team-footer-bottom-inner">
+    <a href="/" class="team-footer-booking">Online Booking Zuweiser</a>
+    <div class="team-footer-links">
+      <a href="/impressum">Impressum</a>
+      <a href="/datenschutz">Datenschutzerklärung</a>
+      <a href="/cookies">Cookie-Einstellungen</a>
+    </div>
+  </div>
+</div>

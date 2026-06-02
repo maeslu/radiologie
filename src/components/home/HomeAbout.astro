@@ -1,0 +1,28 @@
+---
+import "../../styles/home-about.css";
+
+interface Props {
+  text?: string;
+  image?: string;
+  imageAlt?: string;
+}
+
+const { text = "", image = "", imageAlt = "Über uns" } = Astro.props;
+---
+
+{(text || image) && (
+  <section class="home-about">
+    <div class="container home-about-inner">
+      {image && (
+        <div class="home-about-image">
+          <img src={image} alt={imageAlt} />
+        </div>
+      )}
+      {text && (
+        <div class="home-about-content">
+          <p>{text}</p>
+        </div>
+      )}
+    </div>
+  </section>
+)}

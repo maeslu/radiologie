@@ -1,0 +1,27 @@
+.home-cards {
+	position: relative;
+	z-index: 3;
+	margin-top: -3rem;
+	padding: var(--spacing-4xl) 0 var(--spacing-5xl);
+	background: var(--color-brand-blue, #0b5cad);
+}
+
+.home-cards-grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: var(--spacing-xl);
+	max-width: 56rem;
+	margin-inline: auto;
+}
+
+@media (max-width: 960px) {
+	.home-cards-grid {
+		grid-template-columns: 1fr;
+		max-width: 28rem;
+		margin-inline: auto;
+	}
+
+	.home-cards {
+		margin-top: -2rem;
+	}
+}

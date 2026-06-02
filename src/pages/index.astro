@@ -1,0 +1,97 @@
+---
+import HomeOeffnungszeiten from "../components/home/HomeOeffnungszeiten.astro";
+import HomeGerat from "../components/home/HomeGerat.astro";
+import HomeAerzte from "../components/home/HomeAerzte.astro";
+import HomeAbout from "../components/home/HomeAbout.astro";
+import HomeTeam from "../components/home/HomeTeam.astro";
+import HomeHero from "../components/home/HomeHero.astro";
+import HomeCards from "../components/home/HomeCards.astro";
+import Features from "../components/blocks/Features.astro";
+import Testimonials from "../components/blocks/Testimonials.astro";
+import FAQ from "../components/blocks/FAQ.astro";
+import { getEmDashEntry, getEmDashCollection } from "emdash";
+import Base from "../layouts/Base.astro";
+
+const { entry: page, cacheHint } = await getEmDashEntry("pages", "home");
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+
+const pageTitle = page?.data.title;
+const content = page?.data.content ?? [];
+
+const hero         = content.find((b: any) => b._type === "marketing.hero");
+const { entries: cards } = await getEmDashCollection("home_cards");
+const sortedCards = [...cards].sort((a: any, b: any) => 
+  (a.data.sort_order ?? 99) - (b.data.sort_order ?? 99)
+);
+const features     = content.find((b: any) => b._type === "marketing.features");
+const testimonials = content.find((b: any) => b._type === "marketing.testimonials");
+const faq          = content.find((b: any) => b._type === "marketing.faq");
+---
+
+<Base
+	title={pageTitle !== "Home" ? pageTitle : undefined}
+	description="Modernste Diagnostik an zwei Standorten in Baden-Baden für Ihre Gesundheit. Zentral in der Innenstadt und mit Klinikanschluss."
+>
+	<HomeHero
+  	title={hero?.headline}
+  	lead={hero?.subheadline}
+  	primaryLabel={hero?.primaryCtaLabel}
+  	primaryHref={hero?.primaryCtaUrl}
+  	secondaryLabel={hero?.secondaryCtaLabel}
+  	secondaryHref={hero?.secondaryCtaUrl}
+ 	heroImage={page?.data.hero_image?.meta?.storageKey
+	? `/_emdash/api/media/file/${page.data.hero_image.meta.storageKey}`
+    	: ""}
+	/>
+	
+
+	<HomeCards cards={sortedCards.map((c: any) => ({
+    image: c.data.image?.meta?.storageKey 
+      ? `/_emdash/api/media/file/${c.data.image.meta.storageKey}` 
+      : "",
+    alt: c.data.image?.alt ?? c.data.title ?? "",
+    title: c.data.title,
+    description: c.data.description,
+    href: c.data.href,
+	}))} />
+	<HomeTeam
+  title={page?.data.team_titel}
+  text={page?.data.team_text}
+  buttonLabel={page?.data.team_button_label}
+  buttonHref={page?.data.team_button_url}
+  image={page?.data.team_bild?.meta?.storageKey
+    ? `/_emdash/api/media/file/${page.data.team_bild.meta.storageKey}`
+    : ""}
+  imageAlt={page?.data.team_bild?.alt ?? "Team"}
+/>
+<HomeAbout
+  text={page?.data.ber_uns_text}
+  image={page?.data.ber_uns_bild?.meta?.storageKey
+    ? `/_emdash/api/media/file/${page.data.ber_uns_bild.meta.storageKey}`
+    : ""}
+  imageAlt={page?.data.ueber_uns_bild?.alt ?? "Über uns"}
+/>
+<HomeAerzte
+  text={page?.data.unsere_rzte_text}
+  image={page?.data.unsere_arzte?.meta?.storageKey
+    ? `/_emdash/api/media/file/${page.data.unsere_arzte.meta.storageKey}`
+    : ""}
+  imageAlt={page?.data.unsere_arzte?.alt ?? "Unsere Ärzte"}
+/>
+<HomeGerat
+  text={page?.data.gerat_text}
+  image={page?.data.gerat_foto?.meta?.storageKey
+    ? `/_emdash/api/media/file/${page?.data.gerat_foto.meta.storageKey}`
+    : ""}
+  imageAlt={page?.data.gerat_foto?.alt ?? "Unser Gerät"}
+/>
+<HomeOeffnungszeiten
+  text={page?.data.oeffnungszeiten_text}
+  buttonText={page?.data.oeffnungszeiten_button_text}
+  buttonLink={page?.data.oeffnungszeiten_button_link}
+/>
+
+	{features && <Features node={features} />}
+	{testimonials && <Testimonials node={testimonials} />}
+	{faq && <FAQ node={faq} />}
+</Base>
