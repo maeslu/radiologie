@@ -13,7 +13,7 @@ const { entries } = await getEmDashCollection("arzt");
 
 const alleSchwerpunkte = new Set<string>();
 for (const arzt of entries) {
-  const tags = arzt.data.terms?.schwerpunkte ?? arzt.data.taxonomies?.schwerpunkte ?? [];
+  const tags = arzt.data.schwerpunkte_tags ?? [];
   for (const tag of tags) {
     const name = typeof tag === "string" ? tag : (tag.label ?? tag.name ?? tag.title ?? "");
     if (name) alleSchwerpunkte.add(name);
@@ -60,9 +60,7 @@ const schwerpunkteList = Array.from(alleSchwerpunkte).sort((a, b) =>
             const foto         = fotoUrl(arzt.data.foto);
             const btnText      = arzt.data.mehr_erfahren ?? "Mehr erfahren";
             const schwerpunkte = (
-              arzt.data.terms?.schwerpunkte ??
-              arzt.data.taxonomies?.schwerpunkte ??
-              []
+              arzt.data.schwerpunkte_tags ?? []
             ).map((t: any) => t.label ?? t.name ?? t.title ?? t).filter(Boolean);
 
             return (

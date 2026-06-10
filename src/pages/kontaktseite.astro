@@ -3,7 +3,7 @@ import Base from "../layouts/Base.astro";
 import "../styles/contact.css";
 import { getEmDashCollection } from "emdash";
 
-const { entries } = await getEmDashCollection("contact_page");
+const { entries } = await getEmDashCollection("kontaktseiten");
 const contactPage = entries[0]?.data ?? {};
 
 // Hero

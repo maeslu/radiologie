@@ -73,21 +73,27 @@ const stellenEmail    = page.stellen_email ?? "";
 
   <!-- Hero -->
   <section class="ueber-hero">
+    <div class="ueber-hero-left">
+      {heroSubheading && <p class="ueber-hero-subheading">{heroSubheading}</p>}
+      {heroHeading    && <h1 class="ueber-hero-heading">{heroHeading}</h1>}
+    </div>
     {heroBildUrl && (
-      <div class="ueber-hero-bild">
+      <div class="ueber-hero-right">
         <img src={heroBildUrl} alt="Radiologie Baden-Baden Team" />
       </div>
     )}
-    <div class="ueber-hero-content">
-      {heroSubheading && <p class="ueber-hero-subheading">{heroSubheading}</p>}
-      {heroHeading    && <h1 class="ueber-hero-heading">{heroHeading}</h1>}
-      {heroText && (
+  </section>
+
+  <!-- Hero Text -->
+  {heroText && (
+    <section class="ueber-hero-text-section">
+      <div class="ueber-section-inner">
         <div class="ueber-hero-text">
           {heroText.split("\n").filter(Boolean).map((line: string) => <p>{line}</p>)}
         </div>
-      )}
-    </div>
-  </section>
+      </div>
+    </section>
+  )}
 
   <!-- Ärzte -->
   {(aerzteHeading || aerzteText) && (
